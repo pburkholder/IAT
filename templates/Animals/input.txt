@@ -13,7 +13,6 @@
       "Cow2.jpg",
       "Pig1.jpg",
       "Pig2.jpg",
-      "Tuna.jpg",
       "Turkey.jpg"
     ]
   },
@@ -29,7 +28,6 @@
       "Dog2.jpg",
       "Dog3.jpg",
       "Dog4.jpg",
-      "Fish.jpg",
       "Parrot.jpg"
     ]
   },
