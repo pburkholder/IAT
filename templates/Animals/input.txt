@@ -1,0 +1,66 @@
+{
+  "name": "Animals",
+  "showResult": "show",
+  "IATtype": "two",
+  "catA": {
+    "label": "Livestock",
+    "datalabel": "L",
+    "itemtype": "img",
+    "items": [
+      "Chicken1.jpg",
+      "Chicken2.jpg",
+      "Cow1.jpg",
+      "Cow2.jpg",
+      "Pig1.jpg",
+      "Pig2.jpg",
+      "Tuna.jpg",
+      "Turkey.jpg"
+    ]
+  },
+  "catB": {
+    "label": "Pets",
+    "datalabel": "F",
+    "itemtype": "img",
+    "items": [
+      "Cat1.jpg",
+      "Cat2.jpg",
+      "Cat3.jpg",
+      "Dog1.jpg",
+      "Dog2.jpg",
+      "Dog3.jpg",
+      "Dog4.jpg",
+      "Fish.jpg",
+      "Parrot.jpg"
+    ]
+  },
+  "cat1": {
+    "label": "Positive",
+    "datalabel": "P",
+    "itemtype": "txt",
+    "items": [
+      "Worthy",
+      "Deserving",
+      "Important",
+      "Powerful",
+      "Admirable",
+      "Respected",
+      "Valued",
+      "Honorable"
+    ]
+  },
+  "cat2": {
+    "label": "Negative",
+    "datalabel": "N",
+    "itemtype": "txt",
+    "items": [
+      "Boring",
+      "Stupid",
+      "Irritating",
+      "Worthless",
+      "Useless",
+      "Unimportant",
+      "Insignificant",
+      "Undeserving"
+    ]
+  }
+}
