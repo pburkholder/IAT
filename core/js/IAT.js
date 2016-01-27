@@ -10,11 +10,11 @@ function randomString(length) {
 
 // Loads the input file and starts introduction
 function initialize()
-{	
+{
 	// get active template & load data into global variable
 	$.getJSON("templates/active.txt", function(input) {
 		document.title = input.active + " IAT";
-		$.getJSON("templates/"+input.active+"/input.txt", function(data) { 
+		$.getJSON("templates/"+input.active+"/input.txt", function(data) {
 			template = data;
 			$.get("core/instruct0.html", function(data) {
 				$("#instructions").html(data);
@@ -22,7 +22,7 @@ function initialize()
 			});
 		});
 	});
-	
+
 }
 
 function loadInstructions(stage)
@@ -36,9 +36,9 @@ function loadInstructions(stage)
 				$.get("core/instruct1.html", function(data) {
 					$("#instructions").html(data);
 					$(".IATname").html(template.name);
-					if(	template.catA.itemtype == "img" || 
-						template.catB.itemtype == "img" || 
-						template.cat1.itemtype == "img" || 
+					if(	template.catA.itemtype == "img" ||
+						template.catB.itemtype == "img" ||
+						template.cat1.itemtype == "img" ||
 						template.cat2.itemtype == "img")
 					{
 						$("#andpics").html(" and pictures ");
@@ -53,7 +53,7 @@ function loadInstructions(stage)
 		case 'two':
 			$.get("core/instruct2.html", function(data) {
 				$("#instructions").html(data);
-				
+
 				$("#clabel1").html(template.cat1.label);
 		        $("#clabel2").html(template.cat2.label);
 		        $("#clabelA").html(template.catA.label);
@@ -79,7 +79,7 @@ function loadInstructions(stage)
 		case 'IAT':
 			$.get("core/IAT.html", function(data) {
 				$('body').html(data);
-				document.onkeypress = keyHandler; 
+				document.onkeypress = keyHandler;
 				startIAT();
 			});
 			break;
@@ -92,13 +92,13 @@ function startIAT()
 	currentState = "instruction";
 	session = 0;
 	roundnum = 0;
-	
+
 	// default to show results to participant
 	if (!('showResult' in template))
 	{
 	    template.showResult = "show";
 	}
-	
+
 	// make the target or association words green
 	if (Math.random() < 0.5)
 	{
@@ -108,7 +108,7 @@ function startIAT()
 		close1 = "";
 	}
 	else
-	{		
+	{
 		open1 = "<font color=green>";
 		close1 = "</font>";
 		openA = "";
@@ -117,7 +117,7 @@ function startIAT()
 	buildPage();
 	roundArray = initRounds();
     instructionPage();
-    
+
 }
 
 // Adds all images to page (initially hidden) so they are pre-loaded for IAT
@@ -184,7 +184,7 @@ function initRounds()
                 stype = "target";
                 numrounds = 20;
                 break;
-            case 1:    
+            case 1:
                 stype = "association";
                 numrounds = 20;
                 break;
@@ -195,20 +195,20 @@ function initRounds()
                 stype = "both";
                 numrounds = 40;
                 break;
-            
+
         }
 		prevIndexA = -1; prevIndex1 = -1;
         for (var j = 0; j<numrounds; j++)
         {
             var round = new IATround();
-            
+
             if (stype == "target")
             {
                 round.category = (Math.random() < 0.5 ? template.catA.datalabel : template.catB.datalabel);
             }
             else if (stype == "association")
             {
-                round.category = (Math.random() < 0.5 ? template.cat1.datalabel : template.cat2.datalabel);  
+                round.category = (Math.random() < 0.5 ? template.cat1.datalabel : template.cat2.datalabel);
             }
             else if (stype == "both")
             {
@@ -216,21 +216,21 @@ function initRounds()
 				else { round.category = (Math.random() < 0.5 ? template.cat1.datalabel : template.cat2.datalabel); }
             }
         	// pick a category
-        	if (round.category == template.catA.datalabel) 
-        	{ 
+        	if (round.category == template.catA.datalabel)
+        	{
 				round.itemtype = template.catA.itemtype;
 				if (i < 4) { round.correct = 1; }
 				else { round.correct = 2; }
-				
+
 				// pick an item different from the last
-				do 
+				do
 					{ round.catIndex = Math.floor(Math.random()*template.catA.items.length); }
 	        	while (prevIndexA == round.catIndex)
 	        	prevIndexA = round.catIndex;
-        		
+
         	}
         	else if (round.category == template.catB.datalabel)
-        	{ 
+        	{
 				round.itemtype = template.catB.itemtype;
 				if (i < 4) { round.correct = 2; }
 				else { round.correct = 1; }
@@ -241,7 +241,7 @@ function initRounds()
 	        	prevIndexA = round.catIndex;
         	}
         	else if (round.category == template.cat1.datalabel)
-        	{ 
+        	{
 				round.itemtype = template.cat1.itemtype;
         		round.correct = 1;
 				// pick an item different from the last
@@ -251,7 +251,7 @@ function initRounds()
 	        	prevIndex1 = round.catIndex;
         	}
         	else if (round.category == template.cat2.datalabel)
-        	{ 
+        	{
 				round.itemtype = template.cat2.itemtype;
         		round.correct = 2;
 				// pick an item different from the last
@@ -259,25 +259,25 @@ function initRounds()
 	        	    { round.catIndex = Math.floor(Math.random()*template.cat2.items.length); }
 	        	while (prevIndex1 == round.catIndex)
 	        	prevIndex1 = round.catIndex;
-        	}	
-        	
+        	}
+
         	roundArray[i].push(round);
         }
     }
-    
+
     return roundArray;
 }
 
 // insert instruction text based on stage in IAT
 function instructionPage()
-{	
+{
 	switch (session)
     {
 		case 0:
 			$('#left_cat').ready(function() { $('#left_cat').html(openA+template.catA.label+closeA); });
 			$('#right_cat').ready(function() { $('#right_cat').html(openA+template.catB.label+closeA); });
 			break;
-        case 1:    
+        case 1:
 			$("#left_cat").html(open1+template.cat1.label+close1);
 			$("#right_cat").html(open1+template.cat2.label+close1);
             break;
@@ -301,7 +301,7 @@ function instructionPage()
 		$("#left_cat").html("");
 		$("#right_cat").html("");
 		$("#exp_instruct").html("<img src='core/spinner.gif'>");
-		$.post("core/fileManager.php", { 'op':'checkdb', 'template':template.name }, 
+		$.post("core/fileManager.php", { 'op':'checkdb', 'template':template.name },
  			function(checkdb) {
 				if(checkdb == "success")
 				{
@@ -311,14 +311,14 @@ function instructionPage()
 				{
 				WriteFile();
 				}
-			});	
+			});
 		if(template.showResult == "show")
 		{
 		    calculateIAT();
 		}
 		else
 		{
-		    resulttext = "<div style='text-align:center;padding:20px'>Thanks for participating!</div>";
+		    resulttext = "<div style='text-align:center;padding:20px'>Thanks for participating! Your results have been recorded.</div>";
 		    $("#picture_frame").html(resulttext);
 		}
 	}
@@ -341,7 +341,7 @@ function calculateIAT()
 		compatible += Math.log(score);
 	}
 	compatible /= (roundArray[3].length - 1);
-	
+
 	// calculate mean log(RT) for second key trial
 	incompatible = 0;
 	for (i=1; i<roundArray[6].length; i++)
@@ -352,7 +352,7 @@ function calculateIAT()
 		incompatible += Math.log(score);
 	}
     incompatible /= (roundArray[6].length - 1);
-    
+
     // calculate variance log(RT) for first key trial
     cvar = 0;
 	for (i=1; i<roundArray[3].length; i++)
@@ -362,7 +362,7 @@ function calculateIAT()
 		if (score > 3000) { score = 3000; }
 	    cvar += Math.pow((Math.log(score) - compatible),2);
 	}
-	
+
 	// calculate variance log(RT) for second key trial
 	ivar = 0;
 	for (i=1; i<roundArray[6].length; i++)
@@ -372,39 +372,39 @@ function calculateIAT()
 		if (score > 3000) { score = 3000; }
 	    ivar += Math.pow((Math.log(score) - incompatible),2);
 	}
-	
+
 	// calculate t-value
 	tvalue = (incompatible - compatible) / Math.sqrt(((cvar/39) + (ivar/39))/40);
-    
+
     // determine effect size from t-value and create corresponding text
 	if (Math.abs(tvalue) > 2.89) { severity = " <b>much more</b> than "; }
-	else if (Math.abs(tvalue) > 2.64) { severity = " <b>more</b> than "; }	
+	else if (Math.abs(tvalue) > 2.64) { severity = " <b>more</b> than "; }
 	else if (Math.abs(tvalue) > 1.99) { severity = " <b>a little more</b> than "; }
 	else if (Math.abs(tvalue) > 1.66) { severity = " <b>just slightly more</b> than "; }
 	else { severity = ""; }
-	
+
 	// put together feedback based on direction & magnitude
 	if (tvalue < 0 && severity != "")
-    { 
+    {
         resulttext = "<div style='text-align:center;padding:20px'>You associate "+openA+template.catB.label+closeA+" with "+open1+template.cat1.label+close1;
         resulttext += " and "+openA+template.catA.label+closeA+" with "+open1+template.cat2.label+close1+severity;
         resulttext += "you associate "+openA+template.catA.label+closeA+" with "+open1+template.cat1.label+close1;
-        resulttext += " and "+openA+template.catB.label+closeA+" with "+open1+template.cat2.label+close1+".</div>"; 
+        resulttext += " and "+openA+template.catB.label+closeA+" with "+open1+template.cat2.label+close1+".</div>";
         // resulttext += "<div>incompatible: "+incompatible+" ("+(ivar/39)+"); compatible: "+compatible+" ("+(cvar/39)+"); tvalue: "+tvalue+"</div>";
     }
     else if (tvalue > 0 && severity != "")
-    { 
+    {
         resulttext = "<div style='text-align:center;padding:20px'>You associate "+openA+template.catA.label+closeA+" with "+open1+template.cat1.label+close1;
         resulttext += " and "+openA+template.catB.label+closeA+" with "+open1+template.cat2.label+close1+severity;
         resulttext += "you associate "+openA+template.catB.label+closeA+" with "+open1+template.cat1.label+close1;
-        resulttext += " and "+openA+template.catA.label+closeA+" with "+open1+template.cat2.label+close1+".</div>"; 
+        resulttext += " and "+openA+template.catA.label+closeA+" with "+open1+template.cat2.label+close1+".</div>";
         // resulttext += "<div>incompatible: "+incompatible+" ("+(ivar/39)+"); compatible: "+compatible+" ("+(cvar/39)+"); tvalue: "+tvalue+"</div>";
     }
     else
-    { 
+    {
         resulttext = "<div style='text-align:center;padding:20px'>You do not associate "+openA+template.catA.label+closeA;
         resulttext += " with "+open1+template.cat1.label+close1+" any more or less than you associate ";
-        resulttext += openA+template.catB.label+closeA+" with "+open1+template.cat1.label+close1+".</div>"; 
+        resulttext += openA+template.catB.label+closeA+" with "+open1+template.cat1.label+close1+".</div>";
         // resulttext += "<div>incompatible: "+incompatible+" ("+(ivar/39)+"); compatible: "+compatible+" ("+(cvar/39)+"); tvalue: "+tvalue+"</div>";
     }
 	$("#picture_frame").html(resulttext);
@@ -475,23 +475,23 @@ function checkDemographics()
 	$("input[name=race]:checked").each(function() { races.push($(this).val()); });
     income = $("#income").val();
     education = $("#edu option:selected").val();
-    
+
     // alert(income+"\n"+parseFloat(income)+"\n");
-    // $.get('getLocation.php', 
+    // $.get('getLocation.php',
     //         { 'q': loc},
     //         function(data) {
     //             alert(data);
     //         });
-    
+
 	// Do validation of input
     var error = false;
     var errmsg = "";
-    
+
     if(gender==null)
     {
         error=true;
         errmsg += "<div class='error'>Please choose an option for gender</div>";
-    }    
+    }
 	if(age=="unselected")
     {
         error=true;
@@ -545,7 +545,7 @@ function checkDemographics()
 // and passes it to writeFile.php to be written by the server
 function WriteFile()
 {
-	
+
 	var subject = sub;
 	subject = subject.length==0 ? "unknown" : subject;
 	var str = "";
@@ -563,19 +563,19 @@ function WriteFile()
 			var datai=i;
 			var dataj=j;
 			var mseconds=(roundArray[i][j].endtime - roundArray[i][j].starttime);
-			
+
 		}
 	}
-	
-	
-    $.post("core/fileManager.php", { 'op':'writeoutput', 'template':template.name, 
- 			'subject': subject, 'data': str });	
- 	
+
+
+    $.post("core/fileManager.php", { 'op':'writeoutput', 'template':template.name,
+ 			'subject': subject, 'data': str });
+
 	// notify user of success?
 }
 function WriteDatabase()
 {
-	
+
 	var subject = sub;
 	subject = subject.length==0 ? "unknown" : subject;
 	var str = "";
@@ -593,15 +593,15 @@ function WriteDatabase()
 			var datai=i;
 			var dataj=j;
 			var mseconds=(roundArray[i][j].endtime - roundArray[i][j].starttime);
-			//$.post("core/fileManager.php", { 'op':'writedatabase', 'template':template.name, 
+			//$.post("core/fileManager.php", { 'op':'writedatabase', 'template':template.name,
  			//'subject': subject, 'data': str,'catindex':catIndex, 'category':category, 'datai':datai });
-			$.post("core/fileManager.php", { 'op':'writedatabase', 'template':template.name, 
+			$.post("core/fileManager.php", { 'op':'writedatabase', 'template':template.name,
  			'subject': subject, 'data': str, 'datai':i, 'dataj':j,'category':roundArray[i][j].category, 'catindex':roundArray[i][j].catIndex,
  			'errors':roundArray[i][j].errors, 'mseconds':(roundArray[i][j].endtime - roundArray[i][j].starttime) });
 		}
 	}
-	
- 	
+
+
 	// notify user of success?
 }
 
@@ -609,7 +609,7 @@ function WriteDatabase()
 
 // This monitors for keyboard events
 function keyHandler(kEvent)
-{   
+{
 	// move from instructions to session on spacebar press
 	var unicode;
 	if (!kEvent) var kEvent = window.event;
@@ -631,7 +631,7 @@ function keyHandler(kEvent)
 // Get the stimulus for this session & round and display it
 function displayItem()
 {
-	var tRound = roundArray[session][roundnum]; 
+	var tRound = roundArray[session][roundnum];
 	tRound.starttime = new Date().getTime(); // the time the item was displayed
 	if (tRound.itemtype == "img")
 	{
@@ -647,24 +647,24 @@ function displayItem()
 	else if (tRound.itemtype == "txt")
 	{
 		if (tRound.category == template.catA.datalabel)
-		{ 
+		{
 			$("#word").html(openA+template.catA.items[tRound.catIndex]+closeA)
-			$("#word").css("display","block"); 
+			$("#word").css("display","block");
 		}
 		else if (tRound.category == template.catB.datalabel)
-		{ 
+		{
 			$("#word").html(openA+template.catB.items[tRound.catIndex]+closeA)
-			$("#word").css("display","block"); 
+			$("#word").css("display","block");
 		}
 		else if (tRound.category == template.cat1.datalabel)
-		{ 
+		{
 			$("#word").html(open1+template.cat1.items[tRound.catIndex]+close1)
-			$("#word").css("display","block"); 
+			$("#word").css("display","block");
 		}
 		else if (tRound.category == template.cat2.datalabel)
-		{ 
+		{
 			$("#word").html(open1+template.cat2.items[tRound.catIndex]+close1)
-			$("#word").css("display","block"); 
+			$("#word").css("display","block");
 		}
 	}
 }
@@ -675,7 +675,7 @@ function runSession(kEvent)
 	var unicode = kEvent.keyCode? kEvent.keyCode : kEvent.charCode;
 	keyE = (unicode == 69 || unicode == 101 );
 	keyI = (unicode == 73 || unicode == 105 );
-	
+
 	// if correct key (1 & E) or (2 & I)
 	if ((rCorrect == 1 && keyE) || (rCorrect == 2 && keyI))
 	{

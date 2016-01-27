@@ -1,6 +1,6 @@
 {
   "name": "Animals",
-  "showResult": "show",
+  "showResult": "noshow",
   "IATtype": "two",
   "catA": {
     "label": "Livestock",
