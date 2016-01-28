@@ -1,5 +1,6 @@
 template = {};
 sub = '';
+google_form = ' https://docs.google.com/forms/d/1kNKy68huR_9ssJJAFuZo2VpQ5p1Xwzq3qyoRXeduXU0/viewform?entry.2085831851='
 
 function randomString(length) {
 	var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -318,7 +319,11 @@ function instructionPage()
 		}
 		else
 		{
-		    resulttext = "<div style='text-align:center;padding:20px'>Thanks for participating! Your results have been recorded.</div>";
+		    resulttext = "<div style='text-align:center;padding:20px'>Thanks for participating! Your results have been recorded.";
+				resulttext += "<p>Please complete the following 5-question demographic survey: "
+				resulttext += google_form
+				resulttext += sub
+				resulttext += "<p></div>"
 		    $("#picture_frame").html(resulttext);
 		}
 	}
