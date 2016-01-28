@@ -184,10 +184,12 @@ function initRounds()
             case 4:
                 stype = "target";
                 numrounds = 20;
+                #numrounds = 5;
                 break;
             case 1:
                 stype = "association";
                 numrounds = 20;
+                #numrounds = 5;
                 break;
             case 2:
             case 3:
@@ -195,6 +197,7 @@ function initRounds()
             case 6:
                 stype = "both";
                 numrounds = 40;
+                #numrounds = 5;
                 break;
 
         }
@@ -320,10 +323,10 @@ function instructionPage()
 		else
 		{
 		    resulttext = "<div style='text-align:center;padding:20px'>Thanks for participating! Your results have been recorded.";
-				resulttext += "<p>Please complete the following 5-question demographic survey: "
-				resulttext += google_form
-				resulttext += sub
-				resulttext += "<p></div>"
+				resulttext += "<p>Please complete this following <a href="
+				resulttext += google_form + sub
+				resulttext += "> 5-question demographic survey."
+				resulttext += "</a></><p></div>"
 		    $("#picture_frame").html(resulttext);
 		}
 	}
